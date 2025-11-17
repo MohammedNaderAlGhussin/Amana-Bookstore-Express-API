@@ -1,5 +1,7 @@
 const express = require("express");
 const fs = require("fs");
+const path = require("path");
+const morgan = require("morgan");
 const app = express();
 app.use(express.json()); // to use the body parameters
 app.set("view engine", "ejs"); // set EJS as the template engine (no need to use the .ejs in the path)
@@ -11,6 +13,14 @@ const port = 3000;
 const books = JSON.parse(fs.readFileSync("./data/books.json", "utf-8"));
 const reviews = JSON.parse(fs.readFileSync("./data/reviews.json", "utf-8"));
 
+//Implement a logging function such that whenever any route is hit, it creates a record of the event in the file called log.txt
+const logStlogream = fs.createWriteStream(
+  path.join(__dirname, "./logging/log.txt"),
+  { flags: "a" } // 'a' means append (don't overwrite)
+);
+app.use(morgan("combined", { stream: logStream }));
+
+// GET Rquestes
 app.get("/api/books", (req, res) => {
   res.json({ success: true, data: books });
 });

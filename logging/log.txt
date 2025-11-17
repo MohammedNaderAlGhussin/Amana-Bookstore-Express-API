@@ -1,0 +1,5 @@
+::1 - - [17/Nov/2025:21:26:28 +0000] "GET /api/books HTTP/1.1" 200 1745 "-" "PostmanRuntime/7.50.0"
+::1 - - [17/Nov/2025:21:27:20 +0000] "GET /api/books HTTP/1.1" 200 1745 "-" "PostmanRuntime/7.50.0"
+::1 - - [17/Nov/2025:21:27:38 +0000] "GET /api/books/view/1 HTTP/1.1" 200 591 "-" "curl/8.16.0"
+::1 - - [17/Nov/2025:21:27:58 +0000] "POST /api/books HTTP/1.1" 401 70 "-" "PostmanRuntime/7.50.0"
+::1 - - [17/Nov/2025:21:28:04 +0000] "POST /api/books HTTP/1.1" 201 127 "-" "PostmanRuntime/7.50.0"
