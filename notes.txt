@@ -49,5 +49,13 @@ SSR => Rendering the html projects file from the server.
         app.get("/wlc", (req, res) => {
             res.sendFile(__dirname + "/views/index.html");
         }); 
-    => make sure to include the correct path
+    => make sure to use the sendFile funtion and to include the correct path
     => best practice is to make a viwes folder. 
+
+Using EJS or any Template Engine:
+    => inside the views folder -> the file should be .ejs 
+    => to render it in the endpoint use : res.render("filename") instead of sendFile
+    => make sure to include app.set("view engine", "ejs"); in the top of the file which makes express know that we are using ejs template engine
+    => express assumes that there is a views folder, so if the name was different then express wont find the file to be rendered.
+        => so either keep the folder nama views or use  [app.set("views", "./foldername");]
+    => inside the .ejs file use <%= ... %> → outputs a value || <% ... %> → JavaScript code, like loops or if statements

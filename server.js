@@ -2,6 +2,7 @@ const express = require("express");
 const fs = require("fs");
 const app = express();
 app.use(express.json()); // to use the body parameters
+app.set("view engine", "ejs"); // set EJS as the template engine (no need to use the .ejs in the path)
 
 // address: localhost, port: 3000, path: /books ... etc, method: get/post ...etc
 const port = 3000;
@@ -12,6 +13,16 @@ const reviews = JSON.parse(fs.readFileSync("./data/reviews.json", "utf-8"));
 
 app.get("/api/books", (req, res) => {
   res.json({ success: true, data: books });
+});
+
+app.get("/", (req, res) => {
+  console.log(books.length);
+  res.render("index", {
+    name: "nader",
+    books: books.books,
+    totalBooks: books.books.length,
+  });
+  console.log(books.books);
 });
 
 app.listen(port, () => {
@@ -46,9 +57,15 @@ app.listen(port, () => {
                         res.send(`Hello ${name} your age  is: ${age}`);
                     });
     
-    SSR => rendering HTML Fils
-    app.get("/wlc", (req, res) => {
-  res.sendFile(__dirname + "/views/index.html");
-});
+            SSR => rendering HTML Fils
+            app.get("/wlc", (req, res) => {
+        res.sendFile(__dirname + "/views/index.html");
+        });
 
+            SSR => Using Template Engine "EJS"
+            note: make sure to include --> app.set("view engine", "ejs"); in the top or the file
+
+            app.get("/wlc", (req, res) => {
+                res.render("index");
+            });
 */
