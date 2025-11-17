@@ -82,7 +82,6 @@ app.get("/api/books/featured", (req, res) => {
   res.json({ success: true, books: featuredBooks });
 });
 
-
 app.get("/api/reviews/book/:bookId", (req, res) => {
   const { bookId } = req.params;
 
@@ -100,6 +99,107 @@ app.get("/api/reviews/book/:bookId", (req, res) => {
   res.json({ success: true, reviews: bookReviews });
 });
 
+// Post Requests.
+
+// a function to restrict who can make POST requests to only users you have designated as authenticated
+function authMiddleware(req, res, next) {
+  const apiKey = req.headers["x-api-key"];
+
+  if (!apiKey || apiKey !== "SECRET123") {
+    return res.status(401).json({
+      success: false,
+      message: "Unauthorized: Invalid or missing API key",
+    });
+  }
+
+  next(); // user is allowed
+}
+
+app.post("/api/books", authMiddleware, (req, res) => {
+  const { title, author, year, rating, reviewsCount } = req.body;
+
+  // 1. Validate
+  if (!title || !author) {
+    return res.status(400).json({
+      success: false,
+      message: "Title and author are required",
+    });
+  }
+
+  // 2. Create new book object
+  const newBook = {
+    id:
+      books.books.length == 0
+        ? 1
+        : Number(books.books[books.books.length - 1].id) + 1,
+    title,
+    author,
+    year: year || null,
+    rating: rating || 0,
+    reviewsCount: reviewsCount || 0,
+  };
+  console.log();
+
+  // 3. Save to array
+  books.books.push(newBook);
+
+  // 4. Return response
+  res.status(201).json({
+    success: true,
+    book: newBook,
+  });
+});
+
+app.post("/api/reviews", authMiddleware, (req, res) => {
+  const { bookId, user, rating, comment } = req.body;
+
+  // 1. Basic validation
+  if (!bookId || !user || !rating) {
+    return res.status(400).json({
+      success: false,
+      message: "bookId, user, and rating are required",
+    });
+  }
+
+  // 2. Check if book exists
+  const bookExists = books.books.some((b) => b.id == bookId);
+  if (!bookExists) {
+    return res.status(404).json({
+      success: false,
+      message: "Book not found",
+    });
+  }
+
+  // 3. Create new review
+
+  const reviewId = reviews.reviews[reviews.reviews.length - 1].id
+    .split("")
+    .filter((e) => {
+      return !isNaN(parseInt(e));
+    })
+    .join("");
+  const newReview = {
+    id:
+      reviews.reviews.length == 0
+        ? `review-${1}`
+        : `review-${Number(reviewId) + 1}`,
+    bookId,
+    user,
+    rating,
+    comment: comment || "",
+  };
+
+  console.log(`review-${Number(reviewId) + 1}`);
+
+  // 4. Add to array
+  reviews.reviews.push(newReview);
+
+  // 5. Return response
+  res.status(201).json({
+    success: true,
+    review: newReview,
+  });
+});
 
 app.listen(port, () => {
   console.log("The server is running on port ", port);
