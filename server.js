@@ -14,17 +14,9 @@ app.get("/api/books", (req, res) => {
   res.json({ success: true, data: books });
 });
 
-app.get("/sayHello", (req, res) => {
-  const { name } = req.body;
-  const { age } = req.query;
-  res.send(`Hello ${name} your age  is: ${age}`);
-});
-
 app.listen(port, () => {
   console.log("The server is running on port ", port);
 });
-
-
 
 /*
     -For Testing:
@@ -44,7 +36,7 @@ app.listen(port, () => {
                 res.send(`Hello ${name} your age  is: ${age}`);
             });
 
-                // query parameters, sent by the client and managed in the server side.
+        // query parameters, sent by the client and managed in the server side.
 
                 the URI => {{baseUrl}}/sayHello?age=50
 
@@ -53,5 +45,10 @@ app.listen(port, () => {
                         const { age } = req.query;
                         res.send(`Hello ${name} your age  is: ${age}`);
                     });
+    
+    SSR => rendering HTML Fils
+    app.get("/wlc", (req, res) => {
+  res.sendFile(__dirname + "/views/index.html");
+});
 
 */

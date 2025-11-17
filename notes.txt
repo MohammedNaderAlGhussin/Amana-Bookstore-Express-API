@@ -43,3 +43,11 @@ requests:
                     res.send(`Hello ${name} your age  is: ${age}`);
                 });
 
+SSR => Rendering the html projects file from the server. 
+    you can build the entire project from the server side and send html files as response. 
+    ex: 
+        app.get("/wlc", (req, res) => {
+            res.sendFile(__dirname + "/views/index.html");
+        }); 
+    => make sure to include the correct path
+    => best practice is to make a viwes folder. 
