@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/MohammedNaderAlGhussin/Amana-Bookstore-Express-API#readme",
   "dependencies": {
+    "ejs": "^3.1.10",
     "express": "^5.1.0"
   }
 }
