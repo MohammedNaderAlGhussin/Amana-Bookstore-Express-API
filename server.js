@@ -15,15 +15,91 @@ app.get("/api/books", (req, res) => {
   res.json({ success: true, data: books });
 });
 
-app.get("/", (req, res) => {
-  console.log(books.length);
-  res.render("index", {
-    name: "nader",
-    books: books.books,
-    totalBooks: books.books.length,
-  });
-  console.log(books.books);
+app.get("/api/books/view/:bookId", (req, res) => {
+  const { bookId } = req.params;
+  const book = books.books.find((b) => b.id == bookId);
+
+  if (isNaN(bookId)) {
+    return res.status(400).json({ success: false, message: "Invalid Book ID" });
+  }
+
+  if (!book)
+    return res.status(404).json({ success: false, message: "Book not found" });
+  res.json({ success: true, book });
 });
+
+// GET /api/books/published?start=2022-01-01&end=2022-12-31
+app.get("/api/books/published", (req, res) => {
+  const { start, end } = req.query;
+
+  // validate query parameters
+  if (!start || !end) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Start and end dates are required" });
+  }
+  // converts the string from the query or JSON into a Date object.
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+
+  // check if dates are valid
+  if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Invalid date format" });
+  }
+
+  // filter books within the range
+  const filteredBooks = books.books.filter((book) => {
+    const pubDate = new Date(book.datePublished);
+    return pubDate >= startDate && pubDate <= endDate;
+  });
+
+  res.json({ success: true, books: filteredBooks });
+});
+
+app.get("/api/books/top-rated", (req, res) => {
+  // 1. Calculate score for each book
+  const booksWithScore = books.books.map((book) => ({
+    ...book,
+    score: book.rating * book.reviewCount,
+  }));
+
+  // 2. Sort descending by score
+  booksWithScore.sort((a, b) => b.score - a.score);
+
+  // 3. Take top 10
+  const top10 = booksWithScore.slice(0, 10);
+
+  // 4. Return response
+  res.json({ success: true, books: top10 });
+});
+
+app.get("/api/books/featured", (req, res) => {
+  // filter books with featured = true
+  const featuredBooks = books.books.filter((book) => book.featured);
+
+  res.json({ success: true, books: featuredBooks });
+});
+
+
+app.get("/api/reviews/book/:bookId", (req, res) => {
+  const { bookId } = req.params;
+
+  // optional: validate bookId
+  const bookExists = books.books.find((b) => b.id === bookId);
+  if (!bookExists) {
+    return res.status(404).json({ success: false, message: "Book not found" });
+  }
+
+  // filter reviews for this book
+  const bookReviews = reviews.reviews.filter(
+    (review) => review.bookId === bookId
+  );
+
+  res.json({ success: true, reviews: bookReviews });
+});
+
 
 app.listen(port, () => {
   console.log("The server is running on port ", port);
@@ -67,5 +143,15 @@ app.listen(port, () => {
 
             app.get("/wlc", (req, res) => {
                 res.render("index");
+            });
+        --------------- same ejs but with logic in .ejs file (html elements)
+            app.get("/", (req, res) => {
+                    console.log(books.length);
+                    res.render("index", {
+                        name: "nader",
+                        books: books.books,
+                        totalBooks: books.books.length,
+                });
+                        console.log(books.books);
             });
 */
