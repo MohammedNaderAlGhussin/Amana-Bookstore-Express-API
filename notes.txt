@@ -1,0 +1,45 @@
+Instructions:
+-------------
+- Back end =>
+    - node js with epress:
+        1. you can build an api by creating end points and provide data for the front-end as JSON 
+        2. you can build the entire project from the server side and create the HTML Files as EJS
+
+= run the server localy by using listen function. 
+= console.log will show in the terminal. 
+
+requests: 
+    normal requests requires:
+        1. adress => most likely localhost (before production)
+        2. port => anynumber ex 3000
+        3. path => /api/books
+        4. method => get/post/put
+
+    parameters: 
+        1. path parameters => sent from the cliend in the request and handeled by the server
+
+            ex: app.get("/findSumm/:num1/:num2", (req, res) => {
+                            const { num1, num2 } = req.params;
+                            const sum = Number(num1) + Number(num2);
+                            console.log(`num1 is ${num1} and num2 is ${num2} and the sum is ${sum}`);
+                            res.send("The sum is: " + sum);
+                        });
+
+        2. query parameters:  also sent by the client, you also need to write this line in your server side  
+                              defined in the link {{baseUrl}}/sayHello?age=50
+
+              ex  app.get("/sayHello", (req, res) => {
+                      const { name } = req.body;
+                      const { age } = req.query;
+                      res.send(`Hello ${name} your age  is: ${age}`);
+                  });
+
+        3. body parameters: also sent by the client, you also need to write this line in your server side  
+
+            app.use(express.json()); // to use the body parameters
+
+            ex: app.get("/sayHello", (req, res) => {
+                    const { name, age } = req.body;
+                    res.send(`Hello ${name} your age  is: ${age}`);
+                });
+
