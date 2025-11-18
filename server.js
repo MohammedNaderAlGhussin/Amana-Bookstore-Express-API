@@ -20,6 +20,13 @@ const logStlogream = fs.createWriteStream(
 );
 app.use(morgan("combined", { stream: logStlogream }));
 
+// ROOT PATH
+app.get("/", (req, res) => {
+  res.render("welcome", {
+    name: "MohammendNader AlGhussin",
+  });
+});
+
 // GET Rquestes
 app.get("/api/books", (req, res) => {
   res.json({ success: true, data: books });
