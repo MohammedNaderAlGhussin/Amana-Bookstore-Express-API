@@ -7,7 +7,7 @@ app.use(express.json()); // to use the body parameters
 app.set("view engine", "ejs"); // set EJS as the template engine (no need to use the .ejs in the path)
 
 // address: localhost, port: 3000, path: /books ... etc, method: get/post ...etc
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 //read data once when server Statrs
 const books = JSON.parse(fs.readFileSync("./data/books.json", "utf-8"));
@@ -18,7 +18,7 @@ const logStlogream = fs.createWriteStream(
   path.join(__dirname, "./logging/log.txt"),
   { flags: "a" } // 'a' means append (don't overwrite)
 );
-app.use(morgan("combined", { stream: logStream }));
+app.use(morgan("combined", { stream: logStlogream }));
 
 // GET Rquestes
 app.get("/api/books", (req, res) => {
