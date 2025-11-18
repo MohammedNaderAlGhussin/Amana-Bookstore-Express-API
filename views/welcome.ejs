@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Amana BookStore API</title>
+    <style>
+      body {
+        background-color: #333;
+        color: #eee;
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      header {
+        text-align: center;
+        margin-top: 100px;
+      }
+      a {
+        text-decoration: none;
+        color: rgb(128, 128, 128);
+        transition: 0.5s;
+      }
+      a:hover,
+      a:visited {
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="container">
+      <h1>Welcome To Amana BookStore API</h1>
+      <h3>DONE BY: <span style="color: rgb(215, 62, 62)"><%= name %></span></h3>
+      <p>Begin your journy discovering the api by visiting: /api/books</p>
+    </header>
+    <div style="width: 70%">
+      <p style="font-size: 18px">What Routes can you visist ?</p>
+      <div class="get-routes">
+        <h3>GET Requests:</h3>
+        <ul>
+          <li>
+            <a href="/api/books" target="_blank">/api/books</a>
+          </li>
+          <li>
+            <a href="/api/books/view/2" target="_blank"
+              >/api/books/view/:bookId</a
+            >
+          </li>
+          <li>
+            <a
+              href="/api/books/published?start=2022-01-01&end=2022-12-31"
+              target="_blank"
+              >/api/books/published</a
+            >
+          </li>
+          <li>
+            <a href="/api/books/top-rated" target="_blank"
+              >/api/books/top-rated</a
+            >
+          </li>
+          <li>
+            <a href="/api/books/featured" target="_blank"
+              >/api/books/featured</a
+            >
+          </li>
+          <li>
+            <a href="/api/reviews/book/1" target="_blank"
+              >/api/reviews/book/:bookId</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="post-routes">
+        <h3>POST Requests:</h3>
+        <p>
+          Keep in mind that you won't be able to get the POST Requests without
+          using postman or any other apps !
+        </p>
+        <ul>
+          <li>
+            <a href="">/api/books</a>
+          </li>
+          <li>
+            <a href="">/api/reviews</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
